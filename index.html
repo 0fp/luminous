@@ -1,0 +1,148 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>RPI LED</title>
+  </head>
+  <body bgcolor=black>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+
+commands = {
+	'inc': {
+		'red':   '%2B.2',
+		'green': '%2B.2',
+		//'blue':  '%2B.2',
+	},
+	'dec': {
+		'red':   '-.2',
+		'green': '-.2',
+		//'blue':  '-.2',
+	},
+	'play': {'play': 'toggle'},
+	'power': {'power': 'toggle'},
+
+	'red': {'red': 'toggle'},
+	'green': {'green': 'toggle'},
+	'blue': {'blue': 'toggle'},
+	'white': {
+		'red': 'toggle',
+		'green': 'toggle',
+		//'blue': 'toggle',
+	},
+
+	'redInc': {'red': '%2B0.1'},
+	'redDec': {'red': '-.1'},
+	'greenInc': {'green': '%2B0.1'},
+	'greenDec': {'green': '-.1'},
+	'blueInc': {'blue': '%2B0.1'},
+	'blueDec': {'blue': '-.1'},
+
+	'sine': {
+		'red': 'sine',
+		'green': 'sine'
+	},
+
+	'sequence': {
+		'sequence': 'start'
+	}
+}
+
+
+send = function(e) {
+	data = 'cmd=' + JSON.stringify( commands[e.name] ),
+	$.ajax({
+		type: 'POST',
+		url: "http://192.168.178.10:8007/cgi-bin/setter.cgi",
+		data: data,
+		success: function (data) {}
+	});
+}
+
+    </script>
+	<table>
+	<tr>
+	<td>
+	<button onclick=send(this) name='inc'      type=button> INC    </button>
+	</td>
+	<td>
+	<button onclick=send(this) name='dec'      type=button> DEC    </button>
+	</td>
+	<td>
+	<button onclick=send(this) name='play'     type=button> PLAY   </button>
+	</td>
+	<td>
+	<button onclick=send(this) name='power'    type=button> POWER  </button>
+	</td>
+	</tr>>
+
+	<tr>>
+	<td>
+	<button onclick=send(this) name='red'      type=button> RED    </button>
+	</td>
+	<td>
+	<button onclick=send(this) name='green'    type=button> GREEN  </button>
+	</td>
+	<td>
+	<!--
+	<button onclick=send(this) name='blue'    type=button> BLUE  </button>
+	-->
+	</td>
+	<td>
+	<button onclick=send(this) name='white'    type=button> WHITE  </button>
+	</td>
+	</tr>>
+
+	<tr>>
+	<td>
+	<button onclick=send(this) name='redInc'   type=button> RED+   </button>
+	</td>
+	<td>
+	<button onclick=send(this) name='greenInc' type=button> GREEN+ </button>
+	</td>
+	<td>
+	<!--
+	<button onclick=send(this) name='blueInc'  type=button> BLUE+  </button>
+	-->
+	<td>
+	</tr>>
+
+	<tr>>
+	<td>
+	<button onclick=send(this) name='redDec'   type=button> RED-   </button>
+	</td>
+	<td>
+	<button onclick=send(this) name='greenDec' type=button> GREEN- </button>
+	</td>
+	<td>
+	<!--
+	<button onclick=send(this) name='blueDec'  type=button> BLUE-  </button>
+	-->
+	</td>
+	</tr>>
+
+	<tr>
+	<td>
+	<button onclick=send(this) name='sine'      type=button> SINE    </button>
+	</td>
+	<td>
+	<button onclick=send(this) name='dec'      type=button> DEC    </button>
+	</td>
+	<td>
+	<button onclick=send(this) name='play'     type=button> PLAY   </button>
+	</td>
+	<td>
+	<button onclick=send(this) name='power'    type=button> POWER  </button>
+	</td>
+	</tr>>
+
+	<tr>
+	<td>
+	<button onclick=send(this) name='sequence'      type=button> SEQ    </button>
+	</td>
+	</tr>>
+
+	</table>
+	<input type="color" name="fart" onchange="alert(this.value)">
+  </body>
+</html>
+
