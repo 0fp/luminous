@@ -17,16 +17,10 @@ import RPi.GPIO as GPIO
 class LED:
     power = False
     intensity = 0.5
-    dI = 0.01
-    steps = 10
     norm = 1
 
     _pin = 0
-    _lastIntensity = 0
     _pwmFrequency = 60 #Hz
-    _updateFrequency = 30 #Hz
-    _counter = 0
-    _modulateFrequency = 0.05
 
     def __init__(self, pin):
         GPIO.setup(pin, GPIO.OUT)
@@ -34,45 +28,10 @@ class LED:
         self._pin = pin
         self._pwm.start(0)
 
-        #self._thread = threading.Thread(target=self.update)
-        #self._thread.daemon = True
-        #self._thread.start()
-
     def __del__(self):
         self.set(0)
         self._pwm.stop()
         GPIO.cleanup(self._pin)
-
-
-    def modulate(self, intensity, dt):
-        self._counter = self._counter + dt
-        i = intensity + 0.2 * math.sin(self._counter * 2 * math.pi *
-                self._modulateFrequency * dt)
-        i = intensity + 0.2 * math.sin(
-                2 * math.pi
-                * self._counter
-                * self._modulateFrequency
-                )
-
-        return min(1., max(0., i))
-
-    def run(self, sequence):
-        def _():
-            for intensity in sequence._step():
-                print(intensity)
-                if self.power or True:
-                    # linearize duty cycle
-                    dc = (math.exp(2*intensity) - 1) / (math.exp(2) - 1) * 100
-                    self._pwm.ChangeDutyCycle(dc)
-
-                time.sleep(1/self._updateFrequency)
-
-            #if intensity == 0:
-            #    self._pwm.stop()
-            #    self.power = False
-
-        self._thread = threading.Thread(target=_)
-        self._thread.start()
 
     def set(self, intensity=1):
         if not self.power:
@@ -81,27 +40,15 @@ class LED:
 
         intensity = min(1., max(0., intensity))
         dc = (math.exp(2*intensity) - 1) / (math.exp(2) - 1) * 100 * self.norm
-        print('pwm {} {:.4f} {:.4f}'.format(self._pin, dc, intensity))
+        # print('pwm {} {:.4f} {:.4f}'.format(self._pin, dc, intensity))
         self._pwm.ChangeDutyCycle(dc)
-        #self.run(Sequence([self.intensity,intensity]))
         self.intensity = intensity
-
-    def increase(self, dI):
-        self.set(self.intensity + dI)
-
-    def decrease(self, dI):
-        self.set(self.intensity - dI)
 
     def on(self):
         self.power = True
-        #self._pwm.start(0)
-        #self.run(Sequence([0, self.intensity], 1))
 
     def off(self):
-        #self.run(Sequence([self.intensity, 0], 1))
         self.power = False
-        #self._thread.stop()
-        #self._pwm.stop()
 
     def toggle(self):
         self.off() if self.power else self.on()
@@ -120,7 +67,6 @@ class Sequence:
             self._start = time.time()
             step = 0
             print('run sequence')
-            print(self.steps)
             while self.running and len(self.steps) > 1:
                 print("step", step)
                 for c, I in self.steps[step]:
@@ -211,10 +157,7 @@ class Channel:
     def __init__(self, led):
         self.led=led
         led.on()
-        #self.function = lambda x: 1
-        #self._start = time.time()
         self._running = False
-        #self.run()
 
     def __del__(self):
         self.stop()
@@ -295,7 +238,7 @@ class Channel:
         self._thread.start()
 
     def stop(self):
-        print('stop')
+        print('stop channel')
         self._running = False
         if self._thread:
             self._thread.join()
@@ -426,7 +369,6 @@ except KeyboardInterrupt:
 for c in [red, green, blue]:
     c.stop()
 
-del blue
 server.shutdown()
 #del controller
 
