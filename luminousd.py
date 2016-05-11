@@ -56,8 +56,9 @@ class LED:
 # =====================================================================
 class Sequence:
     steps = []
-    transitionDuration = 1
+    transitionDuration = 4
     stepDuration = 5
+    running = False
 
     def append(self, step):
         self.steps.append(step)
@@ -77,12 +78,17 @@ class Sequence:
                 time.sleep(self.stepDuration)
                 step = (step+1) % len(self.steps)
 
+            self.running = False
+
         self.running = True
         self._thread = threading.Thread(target=_)
         self._thread.start()
 
     def stop(self):
+        print('stop sequence')
         self.running = False
+        if self._thread:
+            self._thread.join()
 
 # =====================================================================
 class Transition:
@@ -350,10 +356,14 @@ try:
                     c._mStart = mStart
 
         if cmd.get('sequence') == 'start':
-            step = [(c, c.intensity) for c in channels.values()]
-            print(step)
-            sequence.append(step)
-            sequence.run()
+            if sequence.running:
+                print('n')
+                sequence.stop()
+            else:
+                print('i')
+                step = [(c, c.intensity) for c in channels.values()]
+                sequence.append(step)
+                sequence.run()
 
 
         #c.Intensity(I)
@@ -365,6 +375,8 @@ try:
 
 except KeyboardInterrupt:
     pass
+
+sequence.stop()
 
 for c in [red, green, blue]:
     c.stop()
