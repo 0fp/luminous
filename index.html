@@ -52,7 +52,7 @@ send = function(e) {
 	data = 'cmd=' + JSON.stringify( commands[e.name] ),
 	$.ajax({
 		type: 'POST',
-		url: "http://192.168.178.10:8007/cgi-bin/setter.cgi",
+		url: "http://192.168.178.10:8007/cgi-bin/luminous.cgi",
 		data: data,
 		success: function (data) {}
 	});
