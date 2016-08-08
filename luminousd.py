@@ -71,6 +71,7 @@ class Sequence:
             while self.running and len(self.steps) > 1:
                 print("step", step)
                 for c, I in self.steps[step]:
+                    if not c.on: continue
                     d = self.transitionDuration
                     c.transition(Linear(c.intensity, I, d), d)
                     c.start()
