@@ -317,6 +317,8 @@ try:
 
         if not blue.on:
             continue
+        print('======================')
+        print([_.on for _ in [red, green, blue]])
 
         _ = ((c, cmd[k]) for k,c in channels.items() if k in cmd)
         for c, I in _:
