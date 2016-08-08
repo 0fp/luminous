@@ -335,12 +335,26 @@ try:
             if str(I)[0] in ['+', '-']:
                 I = c.intensity + float(I)
                 c.transition(Linear(c.intensity, I, 1), 1)
+                continue
 
             # mod
             if I == 'sine':
                 if c._mStart:
                     continue
                 c.modulation(Sine(-1, 1, 1))
+                continue
+
+            if str(I)[:2] == 'mF':
+                c.mFrequency = (0.9 + float(I[2:])) * c.mFrequency
+
+                print('mFrequency', c.mFrequency)
+                continue
+
+            try:
+                print('set to ', I)
+                c.transition(Linear(c.intensity, I, 1), 1)
+            except Exception as e:
+                print(e)
 
 
         if cmd.get('play') == 'toggle':
@@ -351,6 +365,7 @@ try:
                     mStart = time.time()
                 for c in channels.values():
                     c._mStart = mStart
+            continue
 
         if cmd.get('sequence') == 'start':
             if sequence.running:
@@ -361,6 +376,11 @@ try:
                 step = [(c, c.intensity) for c in channels.values()]
                 sequence.append(step)
                 sequence.run()
+
+        if cmd.get('mod',' ')[0] == 'A':
+            for c in channels.values():
+                c._mAmplitude += float(cmd['mod'][1:])
+                c._mAmplitude += float(cmd['mod'][1:])
 
 
         #c.Intensity(I)
