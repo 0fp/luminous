@@ -152,7 +152,7 @@ class ThreadedTCPStreamHandler(socketserver.StreamRequestHandler):
 # =====================================================================
 class Channel:
 
-    _updateFrequency = 30
+    _updateFrequency = 50
     intensity = 0.1
     _mStart = None
     mFunction = None
@@ -284,7 +284,8 @@ red = Channel(LED(19))
 green = Channel(LED(13))
 blue = Channel(LED(26))
 
-green.led.norm = 0.2
+# blue.led.norm = 0.5
+# green.led.norm = 0.2
 
 channels = {
         'red': red,
