@@ -314,12 +314,6 @@ try:
         if 'power' in cmd and cmd['power'] == 'toggle':
             for c in [red, green, blue]:
                 c.toggle()
-            _ = False
-            while not _:
-                time.sleep(0.1)
-                _ = True
-                for c in [red, green, blue]:
-                    _ = _ and c._tStart is None
 
         if not blue.on:
             continue
