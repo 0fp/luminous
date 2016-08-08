@@ -338,7 +338,6 @@ try:
 
             # mod
             if I == 'sine':
-            # if codeIR == 'JUMP3':
                 if c._mStart:
                     continue
                 c.modulation(Sine(-1, 1, 1))
