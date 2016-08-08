@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 #coding: utf8
 
-import lirc as lirc
+#import lirc as lirc
 import threading
 import time
 import socketserver
