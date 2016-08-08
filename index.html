@@ -1,148 +1,111 @@
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>RPI LED</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>luminous</title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
   </head>
   <body bgcolor=black>
-	<script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="luminous.js"></script>
 
-commands = {
-	'inc': {
-		'red':   '%2B.2',
-		'green': '%2B.2',
-		//'blue':  '%2B.2',
-	},
-	'dec': {
-		'red':   '-.2',
-		'green': '-.2',
-		//'blue':  '-.2',
-	},
-	'play': {'play': 'toggle'},
-	'power': {'power': 'toggle'},
+    <input id="test" type="range">
+    <input id="test1" type="range">
+    <table>
+    <tr>
+    <td>
+    <button onclick=send(this) name='inc'      type=button> INC    </button>
+    </td>
+    <td>
+    <button onclick=send(this) name='dec'      type=button> DEC    </button>
+    </td>
+    <td>
+    <button onclick=send(this) name='power'    type=button> POWER  </button>
+    </td>
+    </tr>
 
-	'red': {'red': 'toggle'},
-	'green': {'green': 'toggle'},
-	'blue': {'blue': 'toggle'},
-	'white': {
-		'red': 'toggle',
-		'green': 'toggle',
-		//'blue': 'toggle',
-	},
+    <tr>
+    <td>
+    <button onclick=send(this) name='red'      type=button> RED    </button>
+    </td>
+    <td>
+    <button onclick=send(this) name='green'    type=button> GREEN  </button>
+    </td>
+    <td>
+    <button onclick=send(this) name='blue'    type=button> BLUE  </button>
+    </td>
+    <td>
+    <button onclick=send(this) name='white'    type=button> WHITE  </button>
+    </td>
+    </tr>
 
-	'redInc': {'red': '%2B0.1'},
-	'redDec': {'red': '-.1'},
-	'greenInc': {'green': '%2B0.1'},
-	'greenDec': {'green': '-.1'},
-	'blueInc': {'blue': '%2B0.1'},
-	'blueDec': {'blue': '-.1'},
+    <tr>
+    <td>
+    <button onclick=send(this) name='redInc'   type=button> RED+   </button>
+    </td>
+    <td>
+    <button onclick=send(this) name='greenInc' type=button> GREEN+ </button>
+    </td>
+    <td>
+    <button onclick=send(this) name='blueInc'  type=button> BLUE+  </button>
+    <td>
+    </tr>
 
-	'sine': {
-		'red': 'sine',
-		'green': 'sine'
-	},
+    <tr>
+    <td>
+    <button onclick=send(this) name='redDec'   type=button> RED-   </button>
+    </td>
+    <td>
+    <button onclick=send(this) name='greenDec' type=button> GREEN- </button>
+    </td>
+    <td>
+    <button onclick=send(this) name='blueDec'  type=button> BLUE-  </button>
+    </td>
+    </tr>
 
-	'sequence': {
-		'sequence': 'start'
-	}
-}
+    <tr>
+    <td>
+    <button onclick=send(this) name='sine'      type=button> SINE    </button>
+    </td>
+    <td>
+    <button onclick=send(this) name='play'     type=button> PLAY   </button>
+    </td>
+    </tr>
+    <tr>
+    <td>
+    <button onclick=send(this) name='freqInc'      type=button> FREQ+    </button>
+    </td>
+    <td>
+    <button onclick=send(this) name='freqDec'     type=button> FREQ-   </button>
+    </td>
+    <td>
+    <button onclick=send(this) name='ampInc'      type=button> AMP+    </button>
+    </td>
+    <td>
+    <button onclick=send(this) name='ampDec'     type=button> AMP-   </button>
+    </td>
+    </tr>>
 
+    <tr>
+    <td>
+    <button onclick=send(this) name='sequence'      type=button> SEQ    </button>
+    </td>
+    </tr>>
 
-send = function(e) {
-	data = 'cmd=' + JSON.stringify( commands[e.name] ),
-	$.ajax({
-		type: 'POST',
-		url: "http://192.168.178.10:8007/cgi-bin/luminous.cgi",
-		data: data,
-		success: function (data) {}
-	});
-}
-
-    </script>
-	<table>
-	<tr>
-	<td>
-	<button onclick=send(this) name='inc'      type=button> INC    </button>
-	</td>
-	<td>
-	<button onclick=send(this) name='dec'      type=button> DEC    </button>
-	</td>
-	<td>
-	<button onclick=send(this) name='play'     type=button> PLAY   </button>
-	</td>
-	<td>
-	<button onclick=send(this) name='power'    type=button> POWER  </button>
-	</td>
-	</tr>>
-
-	<tr>>
-	<td>
-	<button onclick=send(this) name='red'      type=button> RED    </button>
-	</td>
-	<td>
-	<button onclick=send(this) name='green'    type=button> GREEN  </button>
-	</td>
-	<td>
-	<!--
-	<button onclick=send(this) name='blue'    type=button> BLUE  </button>
-	-->
-	</td>
-	<td>
-	<button onclick=send(this) name='white'    type=button> WHITE  </button>
-	</td>
-	</tr>>
-
-	<tr>>
-	<td>
-	<button onclick=send(this) name='redInc'   type=button> RED+   </button>
-	</td>
-	<td>
-	<button onclick=send(this) name='greenInc' type=button> GREEN+ </button>
-	</td>
-	<td>
-	<!--
-	<button onclick=send(this) name='blueInc'  type=button> BLUE+  </button>
-	-->
-	<td>
-	</tr>>
-
-	<tr>>
-	<td>
-	<button onclick=send(this) name='redDec'   type=button> RED-   </button>
-	</td>
-	<td>
-	<button onclick=send(this) name='greenDec' type=button> GREEN- </button>
-	</td>
-	<td>
-	<!--
-	<button onclick=send(this) name='blueDec'  type=button> BLUE-  </button>
-	-->
-	</td>
-	</tr>>
-
-	<tr>
-	<td>
-	<button onclick=send(this) name='sine'      type=button> SINE    </button>
-	</td>
-	<td>
-	<button onclick=send(this) name='dec'      type=button> DEC    </button>
-	</td>
-	<td>
-	<button onclick=send(this) name='play'     type=button> PLAY   </button>
-	</td>
-	<td>
-	<button onclick=send(this) name='power'    type=button> POWER  </button>
-	</td>
-	</tr>>
-
-	<tr>
-	<td>
-	<button onclick=send(this) name='sequence'      type=button> SEQ    </button>
-	</td>
-	</tr>>
-
-	</table>
-	<input type="color" name="fart" onchange="alert(this.value)">
+    </table>
+    <input type="color" name="fart" onchange='setColor(this)'>
   </body>
 </html>
 
